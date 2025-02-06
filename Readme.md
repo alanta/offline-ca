@@ -7,6 +7,10 @@ A reason for having this is could be that an application gateway can be made to 
 This is similar to what is described in [this article](https://learn.microsoft.com/en-us/azure/application-gateway/self-signed-certificates). However, we want to have the certificates managed in Azure Key Vault.
 This enables services that use internal certificates, like API Management to automatically reload renewed certificates without down time.
 
+> [!WARNING]
+> The method presented here involves handling private keys on your workstation. This is not a security best practice and you should be cautious when doing so. I'm working on an improved version that will
+> handle signing in KeyVault.
+
 ## Setup
 
 Please make sure these tools are installed:
@@ -71,7 +75,7 @@ Now use the `SignCSR.ps1` script to sign the CSR. This script will download the 
 .\SignCSR.ps1 -keyVaultName my-kv-name -certificateName mycompany-local-portal -intermediateName  mycompany-local-intermediate
 ```
 
-### Renew a Key Vayult certificate
+### Renew a Key Vault certificate
 
 To renew a certificate, find the certificate in the Key Vault in Azure Portal, select it and on the version overview click the *New Version* button. This will set the certificate to *Pending* status. You can now use the `SignCSR.ps1` script to sign the CSR again.
 
